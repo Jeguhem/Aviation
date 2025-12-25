@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+:root {
+  /* Color Palette - Luxury Aviation */
+  --near-black: #0F0F10;
+  --warm-white: #F5F5F0;
+  --deep-red: #B11226;
+  --soft-gray: #6B6B6B;
+  --light-gray: #9A9A9A;
+  --darker-black: #080808;
+  --accent-red-hover: #C91A31;
+
+  /* Legacy support */
+  --black: #0F0F10;
+  --white: #F5F5F5;
+  --red: #B11226;
+  --gray: #9A9A9A;
+
+  /* Spacing Scale */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-2xl: 4rem;
+  --spacing-3xl: 6rem;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 8px 40px rgba(0, 0, 0, 0.12);
+  --shadow-premium: 0 12px 48px rgba(0, 0, 0, 0.16);
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Typography */
+  --font-headline: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+}
+
+@theme inline {
+  --color-background: var(--warm-white);
+  --color-foreground: var(--near-black);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-space-grotesk);
+}
+
+body {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--near-black);
+  color: var(--warm-white);
+  line-height: 1.6;
+}
+
+/* Premium Button Styles */
+.btn-primary {
+  background-color: var(--deep-red);
+  color: var(--warm-white);
+  padding: 1rem 2.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-inter);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-red-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(177, 18, 38, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--warm-white);
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  border: 1px solid rgba(245, 245, 240, 0.2);
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: var(--font-inter);
+}
+
+.btn-secondary:hover {
+  border-color: rgba(245, 245, 240, 0.4);
+  background: rgba(245, 245, 240, 0.05);
+}
+
+/* Noise Texture Overlay */
+.noise-texture::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* Premium Gradients */
+.gradient-dark {
+  background: radial-gradient(circle at 50% 0%, rgba(177, 18, 38, 0.08) 0%, var(--near-black) 60%);
+}
+
+.gradient-subtle {
+  background: linear-gradient(180deg, var(--near-black) 0%, var(--darker-black) 100%);
+}
+
+/* Glass Morphism */
+.glass-card {
+  background: rgba(245, 245, 240, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 245, 240, 0.08);
+  border-radius: var(--radius-md);
+}
+
+/* Premium Card */
+.premium-card {
+  background: var(--warm-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevated);
+  padding: var(--spacing-xl);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-card:hover {
+  box-shadow: var(--shadow-premium);
+  transform: translateY(-4px);
+}
+
+/* Section Spacing */
+.section-padding {
+  padding: var(--spacing-3xl) var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: var(--spacing-3xl) var(--spacing-2xl);
+  }
+}
+
+/* Typography Utilities */
+.headline-xl {
+  font-family: var(--font-space-grotesk);
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.headline-lg {
+  font-family: var(--font-space-grotesk);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.body-lg {
+  font-family: var(--font-inter);
+  font-size: 1.125rem;
+  line-height: 1.8;
+  font-weight: 400;
+  color: var(--light-gray);
+}
+
+.body-md {
+  font-family: var(--font-inter);
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* Container */
+.container-custom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .container-custom {
+    padding: 0 var(--spacing-2xl);
+  }
+}
+
+/* Legacy Styles */
+.hero-bg-image {
+  background-image: url('/public/images/close-up-plane-shot.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.blurry-glass-pattern {
+  background-image: url('/abstract/blurry-glass.png');
+  background-size: 500px;
+}
+
+.hero-body {
+  @apply flex items-center h-[100vh] text-white w-[100%]
+}
+
+.main-hero-text {
+  @apply text-[48px] font-semibold
+}
