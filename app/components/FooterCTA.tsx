@@ -2,7 +2,7 @@
 
 export default function FooterCTA() {
     return (
-        <section className="section-padding bg-near-black border-t border-warm-white/10">
+        <section className="py-24 bg-near-black border-t border-warm-white/10">
             <div className="container-custom text-center">
                 <h2 className="headline-lg text-warm-white mb-6">
                     Ready to Elevate Your Journey?
@@ -11,7 +11,7 @@ export default function FooterCTA() {
                     Experience the pinnacle of private aviation. Request a personalized quote
                     and discover how we redefine luxury travel.
                 </p>
-                <button className="btn-primary text-lg px-12 py-4">
+                <button className="btn-primary text-lg px-12 py-4 cursor-pointer">
                     Request Your Quote
                 </button>
             </div>
