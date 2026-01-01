@@ -5,7 +5,7 @@ import Izylogo from "@/public/images/IzyLogo.svg"
 
 export default function Footer() {
     return (
-        <footer className="bg-(--darker-black)  py-16 border-t border-(--warm-white)/5">
+        <footer className="bg-(--darker-black) w-full py-16 border-t border-(--warm-white)/5 footer-pattern ">
             <div className="container-custom">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                     {/* Brand */}

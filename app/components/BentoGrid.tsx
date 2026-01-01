@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 export default function BentoGrid() {
     return (
-        <section className="section-padding bg-(--warm-white) relative overflow-hidden">
+        <section className="section-padding mt-36 bg-(--warm-white) relative overflow-hidden">
             {/* Background ambient accents */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                 <div className="absolute top-[10%] right-[5%] w-[600px] h-[600px] bg-(--deep-red) rounded-full opacity-[0.015] blur-[150px]" />

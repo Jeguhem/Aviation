@@ -2,12 +2,13 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import BookingCard from "./BookingCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
     const patternRef = useRef<HTMLDivElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const planeRef = useRef<HTMLImageElement>(null);
 
     const animate = () => {
         const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
@@ -24,15 +25,11 @@ export default function Hero() {
                 opacity: 0,
                 duration: 1,
             }, "-=0.6")
-            .from(".hero-cta-group", {
+            .from(".hero-booking", {
                 y: 40,
                 opacity: 0,
                 duration: 0.8,
-            }, "-=0.4")
-            .from(".hero-secondary-text", {
-                opacity: 0,
-                duration: 0.8,
-            }, "-=0.3");
+            }, "-=0.4");
 
         // Parallax for IzyPattern
         if (patternRef.current) {
@@ -47,6 +44,17 @@ export default function Hero() {
                 }
             });
         }
+
+        // Gentle float for plane image
+        if (planeRef.current) {
+            gsap.to(planeRef.current, {
+                y: -20,
+                duration: 3,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
     };
 
     useEffect(() => {
@@ -54,16 +62,20 @@ export default function Hero() {
     }, []);
 
     return (
-        <section className="hero-section relative min-h-[1000px] flex items-center overflow-hidden gradient-dark noise-texture">
-            {/* Abstract Background Elements */}
+        <section className="hero-section relative min-h-[900px] flex lg:items-center pt-0 pb-48 gradient-dark">
+            {/* Background Container - clipped */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {/* Noise Texture */}
+                <div className="absolute inset-0 noise-texture opacity-50"></div>
+
                 {/* Radial glow */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-(--deep-red)/5 rounded-full blur-3xl"></div>
+                <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-(--deep-red)/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-(--deep-red)/5 rounded-full blur-3xl"></div>
 
                 {/* Izy Pattern with Parallax */}
                 <div
                     ref={patternRef}
-                    className="absolute inset-x-0 -top-20 h-[120%] opacity-[0.03] z-0 pointer-events-none"
+                    className="absolute inset-x-0 -top-20 h-[120%] opacity-[0.03] z-0"
                     style={{
                         backgroundImage: "url('/images/IzyPattern.svg')",
                         backgroundSize: "600px",
@@ -72,51 +84,72 @@ export default function Hero() {
                 />
 
                 {/* Curved flight path lines */}
-                <svg className="absolute inset-0 w-full h-full opacity-5" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 450 Q360 300 720 450 T1440 450" stroke="currentColor" strokeWidth="1" className="text-(--warm-white)/20" />
-                    <path d="M0 500 Q360 350 720 500 T1440 500" stroke="currentColor" strokeWidth="1" className="text-(--warm-white)/10" />
+                <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M-100 600 Q360 400 720 600 T1540 600" stroke="currentColor" strokeWidth="1" className="text-(--warm-white)/20" />
+                    <path d="M-100 650 Q360 450 720 650 T1540 650" stroke="currentColor" strokeWidth="1" className="text-(--warm-white)/10" />
                 </svg>
             </div>
 
-            {/* Content Left-Aligned */}
-            <div className="container-custom relative z-10 py-20">
-                <div className="max-w-3xl">
-                    {/* Headline */}
-                    <h1 className="headline-xl text-(--warm-white) mb-6 overflow-hidden">
-                        <span className="block hero-headline">Private Aviation</span>
-                        <span className="block hero-headline">Redefined</span>
-                    </h1>
+            {/* Content Container */}
+            <div className="container-custom  !pt-24 lg:pt-0  relative z-10 w-full">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 lg:items-center">
+                    {/* Left: Text Content */}
+                    <div className="max-w-2xl">
+                        <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-(--warm-white)/10 bg-(--warm-white)/5 backdrop-blur-sm">
+                            <span className="w-1.5 h-1.5 rounded-full bg-(--deep-red) animate-pulse"></span>
+                            <span className="text-xs font-medium text-(--warm-white)/80 tracking-wide uppercase">Private Aviation Redefined</span>
+                        </div>
 
-                    {/* Subtext */}
-                    <p className="body-lg max-w-xl mb-12 hero-subtext text-white/80">
-                        Where elegance, discretion, and comfort come together at 40,000 feet.
-                    </p>
+                        <h1 className="headline-xl text-(--warm-white) mb-6 overflow-hidden leading-tight">
+                            <span className="block hero-headline">Elevate Your</span>
+                            <span className="block hero-headline">Journey Above</span>
+                            <span className="block hero-headline text-transparent bg-clip-text bg-gradient-to-r from-(--warm-white) to-(--light-gray)">The Ordinary</span>
+                        </h1>
 
-                    {/* CTA Buttons */}
-                    <div className="flex flex-wrap gap-4 mb-16 hero-cta-group">
-                        <button className="btn-primary cursor-pointer">
-                            Request a Quote
-                        </button>
-                        <button className="btn-secondary cursor-pointer">
-                            View Fleet
-                        </button>
+                        <p className="body-lg mb-4 hero-subtext text-(--light-gray) max-w-lg">
+                            Where elegance, discretion, and comfort come together at 40,000 feet. Experience the pinnacle of personalized travel.
+                        </p>
+
+                        <div className="hero-subtext flex flex-wrap gap-6 items-center">
+                            <button className="text-(--warm-white) border-b border-(--deep-red) pb-1 hover:text-(--deep-red) transition-colors duration-300">
+                                Explore Fleet
+                            </button>
+                            <button className="text-(--warm-white) border-b border-transparent pb-1 hover:border-(--deep-red) transition-colors duration-300">
+                                Our Services
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Secondary Text */}
-                    <aside className="hero-secondary-text">
-                        <p className="body-md text-(--soft-gray) max-w-lg">
-                            Seamless charter experiences designed around comfort and precision.
-                        </p>
-                    </aside>
+                    {/* Right: Visual Area */}
+                    <div className="hidden lg:block relative h-[600px] w-full">
+                        {/* Abstract Visual Composition */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-(--deep-red)/10 to-transparent rounded-full blur-3xl transform translate-x-1/4"></div>
+                        {/*<img*/}
+                        {/*    src="/images/hero_white_flight_attendant.png"*/}
+                        {/*    alt="Luxury Jet"*/}
+                        {/*    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] max-w-none opacity-80 drop-shadow-2xl  brightness-125 contrast-125 mix-blend-lighten"*/}
+                        {/*/> */}
+                        <img
+                            src="/images/hero_plane.png"
+                            alt="Luxury Jet"
+                            className="absolute top-3/4  -left-1 -translate-x-50 -translate-y-3/4 w-[180%] max-w-none opacity-80 drop-shadow-2xl  brightness-125 contrast-125 mix-blend-lighten"
+                        />
+                        {/*<img*/}
+                        {/*    src="/images/hero-flight-attendant.png"*/}
+                        {/*    alt="Luxury Jet"*/}
+                        {/*    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] max-w-none opacity-80 drop-shadow-2xl  brightness-125 contrast-125 mix-blend-lighten"*/}
+                        {/*/>*/}
+                    </div>
                 </div>
             </div>
 
-            {/* Scroll Indicator */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-60">
-                <div className="w-6 h-10 border border-(--warm-white)/30 rounded-full flex items-start justify-center p-2">
-                    <div className="w-1 h-2 bg-(--warm-white) rounded-full animate-bounce"></div>
+            {/* Overlapping Booking Card */}
+            <div className="absolute -bottom-10 left-0 w-full translate-y-1/3 z-20 !pt-18 lg:pt-0 px-4 hero-booking">
+                <div className="container-custom max-w-5xl mx-auto">
+                    <BookingCard className="shadow-premium border-(--warm-white)/10 bg-(--near-black)/80 backdrop-blur-xl" />
                 </div>
             </div>
         </section>
     );
 }
+

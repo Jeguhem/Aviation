@@ -5,13 +5,14 @@ import ExperienceSection from "@/app/components/ExperienceSection";
 import FleetSection from "@/app/components/FleetSection";
 import FooterCTA from "@/app/components/FooterCTA";
 import Footer from "@/app/components/Footer";
+import ExperientialShowcase from "@/app/components/ExperientialShowcase";
 
 export default function Home() {
   return (
     <main className="overflow-x-hidden">
       <Hero />
-      <BookingCard />
       <BentoGrid />
+        <ExperientialShowcase />
       <ExperienceSection />
       <FleetSection />
       <FooterCTA />
