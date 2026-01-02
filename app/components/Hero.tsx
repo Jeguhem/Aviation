@@ -62,7 +62,7 @@ export default function Hero() {
     }, []);
 
     return (
-        <section className="hero-section relative min-h-[900px] flex lg:items-center pt-0 pb-48 gradient-dark">
+        <section className="hero-section relative min-h-screen lg:min-h-[900px] flex flex-col lg:flex-row lg:items-center pt-0 pb-20 lg:pb-48 gradient-dark">
             {/* Background Container - clipped */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 {/* Noise Texture */}
@@ -91,7 +91,7 @@ export default function Hero() {
             </div>
 
             {/* Content Container */}
-            <div className="container-custom  !pt-24 lg:pt-0  relative z-10 w-full">
+            <div className="container-custom !pt-16 lg:pt-0 relative z-10 w-full">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 lg:items-center">
                     {/* Left: Text Content */}
                     <div className="max-w-2xl">
@@ -124,28 +124,16 @@ export default function Hero() {
                     <div className="hidden lg:block relative h-[600px] w-full">
                         {/* Abstract Visual Composition */}
                         <div className="absolute inset-0 bg-gradient-to-br from-(--deep-red)/10 to-transparent rounded-full blur-3xl transform translate-x-1/4"></div>
-                        {/*<img*/}
-                        {/*    src="/images/hero_white_flight_attendant.png"*/}
-                        {/*    alt="Luxury Jet"*/}
-                        {/*    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] max-w-none opacity-80 drop-shadow-2xl  brightness-125 contrast-125 mix-blend-lighten"*/}
-                        {/*/> */}
                         <img
                             src="/images/hero_plane.png"
                             alt="Luxury Jet"
                             className="absolute top-3/4  -left-1 -translate-x-50 -translate-y-3/4 w-[180%] max-w-none opacity-80 drop-shadow-2xl  brightness-125 contrast-125 mix-blend-lighten"
                         />
-                        {/*<img*/}
-                        {/*    src="/images/hero-flight-attendant.png"*/}
-                        {/*    alt="Luxury Jet"*/}
-                        {/*    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] max-w-none opacity-80 drop-shadow-2xl  brightness-125 contrast-125 mix-blend-lighten"*/}
-                        {/*/>*/}
                     </div>
                 </div>
-            </div>
 
-            {/* Overlapping Booking Card */}
-            <div className="absolute -bottom-10 left-0 w-full translate-y-1/3 z-20 !pt-18 lg:pt-0 px-4 hero-booking">
-                <div className="container-custom max-w-5xl mx-auto">
+                {/* Booking Card - Unified natural positioning for all screens */}
+                <div className="hero-bookindg relative z-20 mt-5 lg:mt-0 max-w-5xl mx-auto">
                     <BookingCard className="shadow-premium border-(--warm-white)/10 bg-(--near-black)/80 backdrop-blur-xl" />
                 </div>
             </div>

@@ -31,7 +31,7 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                             className={`px-4 py-2 rounded-md text-xs font-medium transition-all duration-300 cursor-pointer ${tripType === "one-way"
                                 ? "bg-(--deep-red) text-(--warm-white) shadow-lg"
                                 : "text-(--light-gray) hover:text-(--warm-white)"
-                            }`}
+                                }`}
                         >
                             One Way
                         </button>
@@ -40,7 +40,7 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                             className={`px-4 py-2 rounded-md text-xs font-medium transition-all duration-300 cursor-pointer ${tripType === "round-trip"
                                 ? "bg-(--deep-red) text-(--warm-white) shadow-lg"
                                 : "text-(--light-gray) hover:text-(--warm-white)"
-                            }`}
+                                }`}
                         >
                             Round Trip
                         </button>
@@ -49,7 +49,7 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                             className={`px-4 py-2 rounded-md text-xs font-medium transition-all duration-300 cursor-pointer ${tripType === "multi-city"
                                 ? "bg-(--deep-red) text-(--warm-white) shadow-lg"
                                 : "text-(--light-gray) hover:text-(--warm-white)"
-                            }`}
+                                }`}
                         >
                             Multi-City
                         </button>
@@ -102,7 +102,7 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                     </div>
 
                     {/* Date & Passengers Section */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {/* Departure Date */}
                         <DatePicker
                             label="Departure Date"
