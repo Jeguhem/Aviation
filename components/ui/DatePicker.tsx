@@ -224,7 +224,7 @@ export default function DatePicker({
     return (
         <div className="relative flex w-full flex-col gap-1">
             {label && (
-                <label className="pl-1 text-xs font-semibold text-(--warm-white)/60 uppercase tracking-wider mb-3">
+                <label className="block text-[10px] font-semibold text-(--warm-white)/60 uppercase tracking-wider mb-2">
                     {label} {required && <span className="text-(--deep-red)">*</span>}
                 </label>
             )}

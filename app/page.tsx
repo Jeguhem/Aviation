@@ -1,4 +1,4 @@
-import Hero from "@/components/Hero";
+import Hero from "@/components/Hero2";
 import BookingCard from "@/components/BookingCard";
 import BentoGrid from "@/components/BentoGrid";
 import ExperienceSection from "@/components/ExperienceSection";
@@ -12,7 +12,7 @@ export default function Home() {
     <main className="overflow-x-hidden">
       <Hero />
       <BentoGrid />
-        <ExperientialShowcase />
+      <ExperientialShowcase />
       <ExperienceSection />
       <FleetSection />
       <FooterCTA />
