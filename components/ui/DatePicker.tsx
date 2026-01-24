@@ -231,14 +231,14 @@ export default function DatePicker({
 
             <div
                 ref={inputContainerRef}
-                className={`${variantClass} ${className || ''} relative flex h-[64px] items-center justify-between gap-2 rounded-xl border transition-all duration-300 px-6 cursor-pointer`}
+                className={`w-full px-4 py-3 bg-(--near-black)/40 border border-(--warm-white)/10 rounded-lg text-(--warm-white) focus:border-(--deep-red) focus:bg-(--near-black)/60 outline-none transition-all duration-300 cursor-pointer flex items-center justify-between gap-2 ${className || ''} ${isFocused || isOpen ? 'border-(--deep-red) bg-(--near-black)/60' : ''}`}
                 onClick={toggleDropdown}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 tabIndex={0}
             >
                 <div className="flex flex-grow items-center">
-                    <span className={`text-lg transition-colors ${formattedDate ? 'text-(--warm-white)' : 'text-(--warm-white)/40'}`}>
+                    <span className={`text-base transition-colors ${formattedDate ? 'text-(--warm-white)' : 'text-(--warm-white)/30'}`}>
                         {formattedDate || placeholder}
                     </span>
                 </div>
