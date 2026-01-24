@@ -3,15 +3,15 @@ import React, { useState } from "react";
 
 export default function BentoGrid() {
     return (
-        <section className="section-padding mt-36 bg-(--warm-white) relative overflow-hidden">
+        <section className="py-16 lg:py-24 lg:mt-16 bg-(--warm-white) relative overflow-hidden">
             {/* Background ambient accents */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                 <div className="absolute top-[10%] right-[5%] w-[600px] h-[600px] bg-(--deep-red) rounded-full opacity-[0.015] blur-[150px]" />
                 <div className="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-(--near-black) rounded-full opacity-[0.015] blur-[120px]" />
             </div>
 
-            <div className="container-custom relative z-10">
-                <div className="mb-16 md:mb-20 text-center max-w-3xl mx-auto">
+            <div className="w-full px-4 md:px-8 lg:px-16 max-w-[1400px] mx-auto relative z-10">
+                <div className="mb-12 md:mb-20 text-center max-w-3xl mx-auto">
                     <span className="text-(--deep-red) font-medium tracking-[0.2em] uppercase text-sm mb-4 block animate-fade-in">
                         Precision & Elegance
                     </span>
@@ -24,7 +24,7 @@ export default function BentoGrid() {
                 </div>
 
                 {/* Puzzle Grid - 6 Columns, Inlined for Creative Freedom */}
-                <div className="grid grid-cols-1 md:grid-cols-6 gap-5 max-w-7xl mx-auto auto-rows-[240px]">
+                <div className="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-5 max-w-7xl mx-auto auto-rows-[240px]">
 
                     {/* 01: Global Reach - Massive Piece */}
                     <div className="md:col-span-4 md:row-span-2 group relative rounded-[var(--radius-lg)] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 bg-(--near-black)">

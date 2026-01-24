@@ -1,11 +1,11 @@
-import Hero from "@/app/components/Hero";
-import BookingCard from "@/app/components/BookingCard";
-import BentoGrid from "@/app/components/BentoGrid";
-import ExperienceSection from "@/app/components/ExperienceSection";
-import FleetSection from "@/app/components/FleetSection";
-import FooterCTA from "@/app/components/FooterCTA";
-import Footer from "@/app/components/Footer";
-import ExperientialShowcase from "@/app/components/ExperientialShowcase";
+import Hero from "@/components/Hero";
+import BookingCard from "@/components/BookingCard";
+import BentoGrid from "@/components/BentoGrid";
+import ExperienceSection from "@/components/ExperienceSection";
+import FleetSection from "@/components/FleetSection";
+import FooterCTA from "@/components/FooterCTA";
+import Footer from "@/components/Footer";
+import ExperientialShowcase from "@/components/ExperientialShowcase";
 
 export default function Home() {
   return (
