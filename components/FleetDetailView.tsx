@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import AircraftSeatLayout from "@/components/AircraftSeatLayout";
-import InquiryModal from "@/components/InquiryModal";
+import RequestQuoteModal from "@/components/RequestQuoteModal";
 import Footer from "@/components/Footer";
 import { FleetAircraft } from "@/lib/fleet-data";
 
@@ -131,11 +131,12 @@ export default function FleetDetailView({ aircraft }: { aircraft: FleetAircraft 
 
             <Footer />
 
-            <InquiryModal
+            <RequestQuoteModal
                 isOpen={isInternalModalOpen}
                 onClose={() => setInternalModalOpen(false)}
-                aircraftName={aircraft.name}
+                initialData={{ message: `I am inquiring about the ${aircraft.name}. Please provide availability and pricing details.` }}
             />
         </main>
     );
 }
+

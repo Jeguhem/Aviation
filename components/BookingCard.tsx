@@ -1,11 +1,39 @@
 "use client";
 import { useState } from "react";
 import DatePicker from "./ui/DatePicker";
+import RequestQuoteModal, { RequestQuoteFilters } from "./RequestQuoteModal";
 
 export default function BookingCard({ className = "" }: { className?: string }) {
     const [tripType, setTripType] = useState("one-way");
     const [departureDate, setDepartureDate] = useState<string | null>(null);
     const [returnDate, setReturnDate] = useState<string | null>(null);
+    
+    // Form states
+    const [departure, setDeparture] = useState("");
+    const [destination, setDestination] = useState("");
+    const [passengers, setPassengers] = useState("1");
+    
+    // Modal state
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    // Initial data to pass
+    const [modalData, setModalData] = useState<Partial<RequestQuoteFilters>>({});
+
+    const handleRequestQuote = (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        // Pass data
+        setModalData({
+            departure,
+            destination,
+            date: departureDate,
+            passengers,
+            tripType,
+            message: tripType === "round-trip" && returnDate ? `Return Date: ${new Date(returnDate).toLocaleDateString()}` : ""
+        });
+        
+        setIsModalOpen(true);
+    };
 
     return (
         <div className={`relative backdrop-blur-xl bg-(--warm-white)/5 border border-(--warm-white)/10 rounded-2xl p-6 md:p-10 shadow-2xl ${className}`}>
@@ -57,7 +85,7 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                 </div>
 
                 {/* Booking Form */}
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleRequestQuote}>
                     {/* Route Section */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* From */}
@@ -68,10 +96,12 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                             <div className="relative">
                                 <input
                                     type="text"
+                                    value={departure}
+                                    onChange={(e) => setDeparture(e.target.value)}
                                     placeholder="New York (JFK)"
                                     className="w-full px-4 py-3 bg-(--near-black)/40 border border-(--warm-white)/10 rounded-lg text-(--warm-white) placeholder-(--warm-white)/30 focus:border-(--deep-red) focus:bg-(--near-black)/60 focus:outline-none transition-all duration-300"
                                 />
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-(--warm-white)/30">
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-(--warm-white)/30 pointer-events-none">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -88,10 +118,12 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                             <div className="relative">
                                 <input
                                     type="text"
+                                    value={destination}
+                                    onChange={(e) => setDestination(e.target.value)}
                                     placeholder="London (LHR)"
                                     className="w-full px-4 py-3 bg-(--near-black)/40 border border-(--warm-white)/10 rounded-lg text-(--warm-white) placeholder-(--warm-white)/30 focus:border-(--deep-red) focus:bg-(--near-black)/60 focus:outline-none transition-all duration-300"
                                 />
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-(--warm-white)/30">
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-(--warm-white)/30 pointer-events-none">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -104,19 +136,23 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                     {/* Date & Passengers Section */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {/* Departure Date */}
-                        <DatePicker
-                            label="Departure Date"
-                            value={departureDate}
-                            onChange={setDepartureDate}
-                        />
+                        <div className="w-full">
+                            <DatePicker
+                                label="Departure Date"
+                                value={departureDate}
+                                onChange={setDepartureDate}
+                            />
+                        </div>
 
                         {/* Return Date (if round trip) */}
                         {tripType === "round-trip" && (
-                            <DatePicker
-                                label="Return Date"
-                                value={returnDate}
-                                onChange={setReturnDate}
-                            />
+                            <div className="w-full animate-in fade-in slide-in-from-left-4 duration-300">
+                                <DatePicker
+                                    label="Return Date"
+                                    value={returnDate}
+                                    onChange={setReturnDate}
+                                />
+                            </div>
                         )}
 
                         {/* Passengers */}
@@ -125,13 +161,18 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                                 Passengers
                             </label>
                             <div className="relative">
-                                <select className="w-full px-4 py-3 bg-(--near-black)/40 border border-(--warm-white)/10 rounded-lg text-(--warm-white) focus:border-(--deep-red) focus:bg-(--near-black)/60 focus:outline-none transition-all duration-300 appearance-none cursor-pointer">
+                                <select 
+                                    value={passengers}
+                                    onChange={(e) => setPassengers(e.target.value)}
+                                    className="w-full px-4 py-3 bg-(--near-black)/40 border border-(--warm-white)/10 rounded-lg text-(--warm-white) focus:border-(--deep-red) focus:bg-(--near-black)/60 focus:outline-none transition-all duration-300 appearance-none cursor-pointer"
+                                >
                                     <option value="1">1 Passenger</option>
                                     <option value="2">2 Passengers</option>
                                     <option value="3">3 Passengers</option>
                                     <option value="4">4 Passengers</option>
                                     <option value="5">5 Passengers</option>
-                                    <option value="6">6+ Passengers</option>
+                                    <option value="6-10">6-10 Passengers</option>
+                                    <option value="10+">10+ Passengers</option>
                                 </select>
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 text-(--warm-white)/30 pointer-events-none">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,14 +187,19 @@ export default function BookingCard({ className = "" }: { className?: string }) 
                     <div className="pt-2">
                         <button
                             type="submit"
-                            className="w-full bg-(--deep-red) hover:bg-accent-red-hover text-(--warm-white) px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-(--deep-red)/20 hover:-translate-y-0.5 cursor-pointer"
+                            className="w-full bg-(--deep-red) hover:bg-red-700 text-(--warm-white) px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:-translate-y-0.5 cursor-pointer"
                         >
                             Request Quote
                         </button>
                     </div>
                 </form>
             </div>
+            
+            <RequestQuoteModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                initialData={modalData}
+            />
         </div>
     );
 }
-

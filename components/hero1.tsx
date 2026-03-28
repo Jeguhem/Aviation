@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import BookingCard from "./BookingCard";
+import RequestQuoteModal from "./RequestQuoteModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Asset: hero1_jet_v2.png (Sleek white/silver jet with red accents)
 
 export default function Hero1() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const planeRef = useRef<HTMLImageElement>(null);
 
     const animate = () => {
@@ -106,10 +108,13 @@ export default function Hero1() {
                         </p>
 
                         <div className="hero-subtext flex flex-wrap gap-6 items-center">
-                            <button className="bg-red-700 hover:bg-red-600 text-white px-8 py-3.5 rounded-none skew-x-[-10deg] transition-all duration-300 group">
+                            <button 
+                                onClick={() => setIsModalOpen(true)}
+                                className="bg-red-700 hover:bg-red-600 cursor-pointer text-white px-8 py-3.5 rounded-none skew-x-[-10deg] transition-all duration-300 group"
+                            >
                                 <span className="block skew-x-[10deg] font-medium tracking-wide">REQUEST QUOTE</span>
                             </button>
-                            <button className="px-6 py-3 text-white/80 hover:text-white transition-colors duration-300 flex items-center gap-2 group">
+                            <button className="px-6 py-3 text-white/80 hover:text-white transition-colors duration-300 flex items-center gap-2 group cursor-pointer">
                                 <span className="uppercase tracking-widest text-sm font-medium">Explore Fleet</span>
                                 <span className="group-hover:translate-x-1 transition-transform">→</span>
                             </button>
@@ -136,6 +141,11 @@ export default function Hero1() {
                     <BookingCard className="shadow-2xl border-white/5 bg-[#121212]/80 backdrop-blur-xl rounded-lg" />
                 </div>
             </div>
+
+            <RequestQuoteModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+            />
         </section>
     );
 }

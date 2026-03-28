@@ -32,6 +32,7 @@ interface Props {
     maxDate?: Date;
     id?: string;
     className?: string;
+    lightMode?: boolean;
 }
 
 interface CalendarDay {
@@ -58,6 +59,7 @@ export default function DatePicker({
     maxDate,
     id = `datepicker-${Math.random().toString(36).substr(2, 9)}`,
     className,
+    lightMode = false,
 }: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
@@ -80,16 +82,6 @@ export default function DatePicker({
             setCurrentDate(new Date(selectedDate));
         }
     }, [selectedDate]);
-
-    const isFilled = !!value;
-
-    // Responsive Variant Logic adapted to the project's Luxury Theme
-    const variantClass = useMemo(() => {
-        if (error) return 'border-red-500 bg-red-500/10';
-        if (isFocused || isOpen) return 'border-(--deep-red) bg-(--warm-white)/10';
-        if (isFilled) return 'border-(--warm-white)/40 bg-(--warm-white)/10 font-semibold';
-        return 'border-(--warm-white)/20 bg-(--warm-white)/5';
-    }, [error, isFocused, isOpen, isFilled]);
 
     const formattedDate = useMemo(() => {
         if (!selectedDate) return '';
@@ -188,16 +180,16 @@ export default function DatePicker({
         const isToday = day.date.toDateString() === new Date().toDateString();
 
         if (day.disabled) {
-            classes.push('text-white/10 cursor-not-allowed');
+            classes.push(lightMode ? 'text-black/10 cursor-not-allowed' : 'text-white/10 cursor-not-allowed');
         } else if (!day.isCurrentMonth) {
-            classes.push('text-white/20 hover:text-white/40 hover:bg-white/5');
+            classes.push(lightMode ? 'text-black/30 hover:bg-black/5 hover:text-black/50' : 'text-white/20 hover:text-white/40 hover:bg-white/5');
         } else {
-            classes.push('text-white/80 hover:bg-(--deep-red)/20 cursor-pointer');
+            classes.push(lightMode ? 'text-black/80 hover:bg-(--deep-red)/10 cursor-pointer' : 'text-white/80 hover:bg-(--deep-red)/20 cursor-pointer');
         }
 
         if (isSelected) {
             classes.push('bg-(--deep-red) font-bold text-white shadow-lg hover:bg-(--deep-red)');
-        } else if (isToday) {
+        } else if (isToday && !isSelected) {
             classes.push('border border-(--deep-red)/30 text-(--deep-red)');
         }
 
@@ -221,28 +213,44 @@ export default function DatePicker({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isOpen]);
 
+    // Derived theme classes
+    const labelClasses = lightMode ? 'text-(--soft-gray)' : 'text-(--warm-white)/60';
+    const inputBaseClasses = lightMode 
+        ? 'bg-(--warm-white) border border-(--light-gray)/30 text-(--near-black) focus:border-(--deep-red)'
+        : 'bg-(--near-black)/40 border border-(--warm-white)/10 text-(--warm-white) focus:border-(--deep-red) focus:bg-(--near-black)/60';
+    const inputStateClasses = (isFocused || isOpen) ? (lightMode ? 'border-(--deep-red)' : 'border-(--deep-red) bg-(--near-black)/60') : '';
+    
+    const dropdownClasses = lightMode 
+        ? 'bg-(--warm-white) border-(--light-gray)/20'
+        : 'bg-(--near-black) border-(--warm-white)/10';
+        
+    const textMainClasses = lightMode ? 'text-(--near-black)' : 'text-(--warm-white)';
+    const textMutedClasses = lightMode ? 'text-(--near-black)/30' : 'text-(--warm-white)/30';
+    const textMediumClasses = lightMode ? 'text-(--near-black)/60' : 'text-(--warm-white)/60';
+    const hoverBgClasses = lightMode ? 'hover:bg-black/5' : 'hover:bg-(--warm-white)/5';
+
     return (
         <div className="relative flex w-full flex-col gap-1">
             {label && (
-                <label className="block text-[10px] font-semibold text-(--warm-white)/60 uppercase tracking-wider mb-2">
+                <label className={`block text-[10px] font-semibold uppercase tracking-wider mb-2 ${labelClasses}`}>
                     {label} {required && <span className="text-(--deep-red)">*</span>}
                 </label>
             )}
 
             <div
                 ref={inputContainerRef}
-                className={`w-full px-4 py-3 bg-(--near-black)/40 border border-(--warm-white)/10 rounded-lg text-(--warm-white) focus:border-(--deep-red) focus:bg-(--near-black)/60 outline-none transition-all duration-300 cursor-pointer flex items-center justify-between gap-2 ${className || ''} ${isFocused || isOpen ? 'border-(--deep-red) bg-(--near-black)/60' : ''}`}
+                className={`w-full px-4 py-3 rounded-lg outline-none transition-all duration-300 cursor-pointer flex items-center justify-between gap-2 ${inputBaseClasses} ${inputStateClasses} ${className || ''}`}
                 onClick={toggleDropdown}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 tabIndex={0}
             >
                 <div className="flex flex-grow items-center">
-                    <span className={`text-base transition-colors ${formattedDate ? 'text-(--warm-white)' : 'text-(--warm-white)/30'}`}>
+                    <span className={`text-base transition-colors ${formattedDate ? textMainClasses : textMutedClasses}`}>
                         {formattedDate || placeholder}
                     </span>
                 </div>
-                <PhCalendarDots className={`transition-colors ${isOpen || isFocused ? 'text-(--deep-red)' : 'text-(--warm-white)/30'}`} />
+                <PhCalendarDots className={`transition-colors ${isOpen || isFocused ? 'text-(--deep-red)' : textMutedClasses}`} />
             </div>
 
             {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
@@ -250,16 +258,16 @@ export default function DatePicker({
             {isOpen && (
                 <div
                     ref={dropdownRef}
-                    className="absolute top-[calc(100%+8px)] left-0 z-50 w-full min-w-[300px] rounded-2xl border border-(--warm-white)/10 bg-(--near-black) shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in duration-200"
+                    className={`absolute top-[calc(100%+8px)] left-0 z-50 w-full min-w-[300px] rounded-2xl border shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in duration-200 ${dropdownClasses}`}
                     tabIndex={-1}
                 >
                     {/* Header */}
-                    <div className="flex w-full items-center justify-between border-b border-(--warm-white)/5 p-4">
+                    <div className={`flex w-full items-center justify-between border-b p-4 ${lightMode ? 'border-(--light-gray)/10' : 'border-(--warm-white)/5'}`}>
                         <button
                             type="button"
                             onClick={previousMonth}
                             disabled={!canNavigatePrevious}
-                            className={`rounded-lg p-2 transition-colors hover:bg-(--warm-white)/5 ${!canNavigatePrevious ? 'opacity-20 cursor-not-allowed' : 'text-(--warm-white)'}`}
+                            className={`rounded-lg p-2 transition-colors ${hoverBgClasses} ${!canNavigatePrevious ? 'opacity-20 cursor-not-allowed' : textMainClasses}`}
                         >
                             <PhCaretLeft />
                         </button>
@@ -268,14 +276,14 @@ export default function DatePicker({
                             <button
                                 type="button"
                                 onClick={() => { setShowMonthPicker(true); setShowYearPicker(false); }}
-                                className="cursor-pointer rounded-lg px-3 py-1 text-sm font-semibold text-(--warm-white) transition-colors hover:bg-(--warm-white)/5 font-[family-name:var(--font-space-grotesk)] uppercase tracking-wider"
+                                className={`cursor-pointer rounded-lg px-3 py-1 text-sm font-semibold transition-colors ${hoverBgClasses} ${textMainClasses} font-[family-name:var(--font-space-grotesk)] uppercase tracking-wider`}
                             >
                                 {currentMonthName}
                             </button>
                             <button
                                 type="button"
                                 onClick={() => { setShowYearPicker(true); setShowMonthPicker(false); }}
-                                className="cursor-pointer rounded-lg px-3 py-1 text-sm font-semibold text-(--warm-white) transition-colors hover:bg-(--warm-white)/5 font-[family-name:var(--font-space-grotesk)]"
+                                className={`cursor-pointer rounded-lg px-3 py-1 text-sm font-semibold transition-colors ${hoverBgClasses} ${textMainClasses} font-[family-name:var(--font-space-grotesk)]`}
                             >
                                 {currentYear}
                             </button>
@@ -285,7 +293,7 @@ export default function DatePicker({
                             type="button"
                             onClick={nextMonth}
                             disabled={!canNavigateNext}
-                            className={`rounded-lg p-2 transition-colors hover:bg-(--warm-white)/5 ${!canNavigateNext ? 'opacity-20 cursor-not-allowed' : 'text-(--warm-white)'}`}
+                            className={`rounded-lg p-2 transition-colors ${hoverBgClasses} ${!canNavigateNext ? 'opacity-20 cursor-not-allowed' : textMainClasses}`}
                         >
                             <PhCaretRight />
                         </button>
@@ -299,7 +307,7 @@ export default function DatePicker({
                                         key={month}
                                         type="button"
                                         onClick={() => selectMonth(index)}
-                                        className={`cursor-pointer rounded-lg px-3 py-3 text-sm font-medium transition-colors ${index === currentMonth ? 'bg-(--deep-red) text-white' : 'text-white/60 hover:bg-(--warm-white)/5 hover:text-white'}`}
+                                        className={`cursor-pointer rounded-lg px-3 py-3 text-sm font-medium transition-colors ${index === currentMonth ? 'bg-(--deep-red) text-white' : `${textMediumClasses} ${hoverBgClasses} ${lightMode ? 'hover:text-(--near-black)' : 'hover:text-white'}`}`}
                                     >
                                         {month}
                                     </button>
@@ -312,7 +320,7 @@ export default function DatePicker({
                                         key={year}
                                         type="button"
                                         onClick={() => selectYear(year)}
-                                        className={`cursor-pointer rounded-lg px-3 py-3 text-sm font-medium transition-colors ${year === currentYear ? 'bg-(--deep-red) text-white' : 'text-white/60 hover:bg-(--warm-white)/5 hover:text-white'}`}
+                                        className={`cursor-pointer rounded-lg px-3 py-3 text-sm font-medium transition-colors ${year === currentYear ? 'bg-(--deep-red) text-white' : `${textMediumClasses} ${hoverBgClasses} ${lightMode ? 'hover:text-(--near-black)' : 'hover:text-white'}`}`}
                                     >
                                         {year}
                                     </button>
@@ -322,7 +330,7 @@ export default function DatePicker({
                             <>
                                 <div className="mb-2 grid grid-cols-7 gap-1">
                                     {dayNames.map(day => (
-                                        <div key={day} className="flex h-8 items-center justify-center text-[10px] font-bold text-white/30 uppercase tracking-widest">
+                                        <div key={day} className={`flex h-8 items-center justify-center text-[10px] font-bold uppercase tracking-widest ${textMutedClasses}`}>
                                             {day}
                                         </div>
                                     ))}
@@ -345,18 +353,18 @@ export default function DatePicker({
                     </div>
 
                     {/* Footer */}
-                    <div className="flex items-center justify-between border-t border-(--warm-white)/5 p-4">
+                    <div className={`flex items-center justify-between border-t p-4 ${lightMode ? 'border-(--light-gray)/10' : 'border-(--warm-white)/5'}`}>
                         <button
                             type="button"
                             onClick={clearDate}
-                            className="px-4 py-2 text-sm font-medium text-white/40 transition-colors hover:text-white cursor-pointer"
+                            className={`px-4 py-2 text-sm font-medium transition-colors cursor-pointer ${lightMode ? 'text-(--near-black)/40 hover:text-(--near-black)' : 'text-white/40 hover:text-white'}`}
                         >
                             Clear
                         </button>
                         <button
                             type="button"
                             onClick={closeDropdown}
-                            className="rounded-lg border border-(--warm-white)/10 px-5 py-2 text-sm font-medium text-white/60 transition-colors hover:bg-(--warm-white)/5 hover:text-white cursor-pointer"
+                            className={`rounded-lg border px-5 py-2 text-sm font-medium transition-colors cursor-pointer ${lightMode ? 'border-(--light-gray)/20 text-(--near-black)/60 hover:bg-black/5 hover:text-(--near-black)' : 'border-(--warm-white)/10 text-white/60 hover:bg-(--warm-white)/5 hover:text-white'}`}
                         >
                             Cancel
                         </button>

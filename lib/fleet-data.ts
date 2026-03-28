@@ -91,7 +91,7 @@ export const fleet: FleetAircraft[] = [
         name: "Global 7500 / Gulfstream G650",
         description: "Global reach without compromise.",
         longDescription: "The pinnacle of private aviation. Fly non-stop from New York to Hong Kong in a cabin designed to minimize jet lag and maximize productivity and relaxation.",
-        image: "/real-jet-images/global-7500-ultrajet.webp",
+        image: "/real-jet-images/global-7500-ultrajet-2.webp",
         specs: {
             range: "7,700 nm",
             passengers: "14-19",

@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { fleet } from "@/lib/fleet-data";
+import RequestQuoteModal from "./RequestQuoteModal";
 
 export default function FleetSection() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <section className="py-24 bg-(--warm-white)">
             <div className="container-custom">
@@ -93,11 +96,20 @@ export default function FleetSection() {
                     <p className="text-(--soft-gray) mb-6">
                         Not sure which aircraft suits your needs?
                     </p>
-                    <button className="px-8 py-4 bg-(--near-black) text-(--warm-white) rounded-xl font-semibold hover:bg-(--darker-black) hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <button 
+                        onClick={() => setIsModalOpen(true)}
+                        className="px-8 py-4 bg-(--near-black) text-(--warm-white) rounded-xl font-semibold hover:bg-(--deep-red) hover:shadow-xl transition-all duration-300 cursor-pointer"
+                    >
                         Speak to Our Fleet Specialist
                     </button>
                 </div>
             </div>
+            
+            <RequestQuoteModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                initialData={{ message: "Hello, I would like to speak to a fleet specialist to help me choose the right aircraft for my upcoming travel needs." }} 
+            />
         </section>
     );
 }
